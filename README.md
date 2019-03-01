@@ -47,4 +47,4 @@ the [tags on this repository](https://github.com/flagscript/blob/master/Flagscri
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/flagscript/Flagscript.Alexa/blob/master/LICENSE.md) file for details.
