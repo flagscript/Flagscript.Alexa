@@ -4,6 +4,17 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
+    <ReleaseVersion>0.1.0</ReleaseVersion>
+    <PackageVersion>0.1.0</PackageVersion>
+    <Authors>Greg Kaestle, Flagscript</Authors>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Owners>Flagscript</Owners>
+    <Summary>Test Project for Flagscript.Alexa.</Summary>
+    <PackageTags>alexa, aws, flagscript</PackageTags>
+    <Title>Flagscript.Alexa.Test</Title>
+    <Description>Test Project for Flagscript.Alexa.</Description>
+    <PackageLicenseUrl>https://github.com/flagscript/Flagscript.Alexa/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/flagscript/Flagscript.Alexa</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>

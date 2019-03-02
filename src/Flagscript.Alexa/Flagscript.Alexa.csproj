@@ -2,10 +2,25 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <ReleaseVersion>0.1.0</ReleaseVersion>
+    <PackOnBuild>true</PackOnBuild>
+    <PackageVersion>0.1.0</PackageVersion>
+    <Authors>Greg Kaestle, Flagscript</Authors>
+    <PackageLicenseUrl>https://github.com/flagscript/Flagscript.Alexa/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Owners>Flagscript</Owners>
+    <PackageProjectUrl>https://github.com/flagscript/Flagscript.Alexa</PackageProjectUrl>
+    <PackageReleaseNotes>Initial Release of Flagscript Alexa.</PackageReleaseNotes>
+    <Summary>.NET Standard library for building Alexa skills.</Summary>
+    <PackageTags>alexa, aws, flagscript</PackageTags>
+    <Title>Flagscript.Alexa</Title>
+    <Description>.NET Standard library for building Alexa skills.</Description>
+    <PackageId>Flagscript.Alexa</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="NuGet.Build.Packaging" Version="0.2.0" />
   </ItemGroup>
 
 </Project>
