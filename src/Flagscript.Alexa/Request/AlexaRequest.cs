@@ -45,6 +45,13 @@ namespace Flagscript.Alexa.Request
 		[JsonProperty("session")]
 		public AlexaSession Session { get; set; }
 
+		/// <summary>
+		/// Current state of service and device at time of request.
+		/// </summary>
+		/// <value>Current state of service and device.</value>
+		[JsonProperty("context")]
+		public AlexaContext Context { get; set; }
+
 		#endregion
 
 	}
