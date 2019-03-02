@@ -16,4 +16,7 @@
     <ProjectReference Include="..\..\src\Flagscript.Alexa\Flagscript.Alexa.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Request\" />
+  </ItemGroup>
 </Project>
