@@ -9,25 +9,25 @@ Flagscript is available as a NuGet package:
 ### NuGet (PM Console)
 
 ```bash
-PM> Install-Package Flagscript -Version 0.0.0 -Source https://www.myget.org/F/flagscript/api/v3/index.json
+PM> Install-Package Flagscript -Version 0.1.0
 ```
 
 ### NuGet.exe
 
 ```bash
-> nuget.exe install Flagscript -Version 0.0.0 -Source https://www.myget.org/F/flagscript/api/v3/index.json
+> nuget.exe install Flagscript.Alexa -Version 0.1.0
 ```
 
 ### .NET CLI
 
 ```bash
-> dotnet add package Flagscript --version 0.0.0 --source https://www.myget.org/F/flagscript/api/v3/index.json
+> dotnet add package Flagscript.Alexa --version 0.1.0
 ```
 
 ###  .csproj
 
 ```xml
-<PackageReference Include="Flagscript.Alexa" Version="0.0.0" />
+<PackageReference Include="Flagscript.Alexa" Version="0.1.0" />
 ```
 
 ## Contributing
