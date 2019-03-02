@@ -55,9 +55,9 @@ namespace Flagscript.Alexa.Request
 		public string AccessToken { get; set; }
 
 		/// <summary>
-		/// Gets or sets the permissions.
+		/// Permissions the user has consented to provide.
 		/// </summary>
-		/// <value>The permissions.</value>
+		/// <value>User consented permissions.</value>
 		[JsonProperty("permissions")]
 		public AlexaPermissions Permissions { get; set; }
 
