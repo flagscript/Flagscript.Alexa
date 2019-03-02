@@ -47,22 +47,22 @@ namespace Flagscript.Alexa.Request
 		[JsonProperty("sesisonId")]
 		public string SessionId
 		{
-			get
-			{
-				return _sessionId;
-			}
+			get => _sessionId;
 			set
 			{
-				if (string.IsNullOrWhiteSpace(value) || !value.StartsWith("AlexaSessionPrefix"))
+				if (string.IsNullOrWhiteSpace(value) || !value.StartsWith(AlexaSessionPrefix, StringComparison.Ordinal))
 				{
-					throw new ArgumentOutOfRangeException(
-						"SessionId",
-						"Invalid session prefix."
-					);
+					throw new ArgumentException($"Invalid session prefix => {value}.");
 				}
 				_sessionId = value;
 			}
 		}
+
+		/// <summary>
+		/// Key/Value Pair attributes used to maintain session state.
+		/// </summary>
+		[JsonProperty("attributes")]
+		public Dictionary<string, string> Attributes { get; set; }
 
 		/// <summary>
 		/// Object indicating the alexa application for the intended skill. 
@@ -72,10 +72,11 @@ namespace Flagscript.Alexa.Request
 		public AlexaApplication Application { get; set; }
 
 		/// <summary>
-		/// Key/Value Pair attributes used to maintain session state.
+		/// The user making the request.
 		/// </summary>
-		[JsonProperty("attributes")]
-		public Dictionary<string, string> Attributes { get;set;}
+		/// <value>The user making the request.</value>
+		[JsonProperty("user")]
+		public AlexaUser User { get; set; }
 
 		#endregion
 

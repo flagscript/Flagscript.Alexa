@@ -33,10 +33,7 @@ namespace Flagscript.Alexa.Request
 			{
 				if (string.IsNullOrWhiteSpace(value) || value != "1.0")
 				{
-					throw new ArgumentOutOfRangeException(
-						"version", 
-						"Flagscript.Alexa only supports Alexa requests with version 1.0."
-					);
+					throw new ArgumentException("Flagscript.Alexa only supports Alexa requests with version 1.0.");
 				}
 			}
         }
