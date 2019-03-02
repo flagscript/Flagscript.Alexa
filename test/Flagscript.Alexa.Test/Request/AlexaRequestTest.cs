@@ -1,6 +1,5 @@
-﻿using System;
-
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace Flagscript.Alexa.Request.Test
@@ -12,6 +11,8 @@ namespace Flagscript.Alexa.Request.Test
 	public class AlexaRequestTest
 	{
 
+		#region Test Methods
+
 		/// <summary>
 		/// Tests the serialization of the version property will only accept and
 		/// return '1.0'.
@@ -22,12 +23,10 @@ namespace Flagscript.Alexa.Request.Test
 		[InlineData("1.2")]
 		public void TestVersionProperty(string version)
 		{
-
-			var requestJson = "{ \"version\": \"" + version + "\" }";
-			AlexaRequest alexaRequest = null;
+			string requestJson = GetVersionTestJson(version);
 			try
 			{
-				alexaRequest = JsonConvert.DeserializeObject<AlexaRequest>(requestJson);
+				AlexaRequest alexaRequest = JsonConvert.DeserializeObject<AlexaRequest>(requestJson);
 				Assert.Equal("1.0", version);
 				Assert.Equal("1.0", alexaRequest.Version);
 			}
@@ -37,6 +36,24 @@ namespace Flagscript.Alexa.Request.Test
 			}
 		}
 
+		#endregion
+
+		#region Json Builders
+
+		/// <summary>
+		/// Returns test JSON for <see cref="TestVersionProperty(string)"/>.
+		/// </summary>
+		/// <returns>The version test json.</returns>
+		/// <param name="version">Version string to test with.</param>
+		private string GetVersionTestJson(string version)
+		{
+			JObject testJson = new JObject(
+				new JProperty("version", version)
+			);
+			return testJson.ToString();
+		}
+
+		#endregion
 
 	}
 

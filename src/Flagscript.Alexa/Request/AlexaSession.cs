@@ -18,7 +18,7 @@ namespace Flagscript.Alexa.Request
 		/// <summary>
 		/// Session Idenitifier prefix for Alexa sessions.
 		/// </summary>
-		private const string AlexaSessionPrefix = "amzn1.echo-api.session.";
+		internal const string AlexaSessionPrefix = "amzn1.echo-api.session.";
 
 		#endregion
 
@@ -44,7 +44,7 @@ namespace Flagscript.Alexa.Request
 		/// Unique session identifier per users active session.
 		/// </summary>
 		/// <value>Unique session identifier.</value>
-		[JsonProperty("sesisonId")]
+		[JsonProperty("sessionId")]
 		public string SessionId
 		{
 			get => _sessionId;

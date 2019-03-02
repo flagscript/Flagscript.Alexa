@@ -38,6 +38,13 @@ namespace Flagscript.Alexa.Request
 			}
         }
 
+		/// <summary>
+		/// Alexa session context.
+		/// </summary>
+		/// <value>The Alexa session context.</value>
+		[JsonProperty("session")]
+		public AlexaSession Session { get; set; }
+
 		#endregion
 
 	}
