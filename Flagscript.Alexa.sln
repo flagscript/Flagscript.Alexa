@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Flagscript.Alexa", "Flagscr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flagscript.Alexa", "src\Flagscript.Alexa\Flagscript.Alexa.csproj", "{BBBBDBC3-0A4A-490C-ACB6-03D596BCCED4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{DD8E654A-9808-4B9B-8AAA-F60030FAEAA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flagscript.Alexa.Test", "test\Flagscript.Alexa.Test\Flagscript.Alexa.Test.csproj", "{B15F5B33-A798-4CF6-BDAD-23492941F85B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,8 +36,21 @@ Global
 		{BBBBDBC3-0A4A-490C-ACB6-03D596BCCED4}.Release|x64.Build.0 = Release|Any CPU
 		{BBBBDBC3-0A4A-490C-ACB6-03D596BCCED4}.Release|x86.ActiveCfg = Release|Any CPU
 		{BBBBDBC3-0A4A-490C-ACB6-03D596BCCED4}.Release|x86.Build.0 = Release|Any CPU
+		{B15F5B33-A798-4CF6-BDAD-23492941F85B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B15F5B33-A798-4CF6-BDAD-23492941F85B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B15F5B33-A798-4CF6-BDAD-23492941F85B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B15F5B33-A798-4CF6-BDAD-23492941F85B}.Debug|x64.Build.0 = Debug|Any CPU
+		{B15F5B33-A798-4CF6-BDAD-23492941F85B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B15F5B33-A798-4CF6-BDAD-23492941F85B}.Debug|x86.Build.0 = Debug|Any CPU
+		{B15F5B33-A798-4CF6-BDAD-23492941F85B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B15F5B33-A798-4CF6-BDAD-23492941F85B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B15F5B33-A798-4CF6-BDAD-23492941F85B}.Release|x64.ActiveCfg = Release|Any CPU
+		{B15F5B33-A798-4CF6-BDAD-23492941F85B}.Release|x64.Build.0 = Release|Any CPU
+		{B15F5B33-A798-4CF6-BDAD-23492941F85B}.Release|x86.ActiveCfg = Release|Any CPU
+		{B15F5B33-A798-4CF6-BDAD-23492941F85B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{BBBBDBC3-0A4A-490C-ACB6-03D596BCCED4} = {A4BC3C98-7E8D-4FC2-BB7E-B7E4C3713E37}
+		{B15F5B33-A798-4CF6-BDAD-23492941F85B} = {DD8E654A-9808-4B9B-8AAA-F60030FAEAA3}
 	EndGlobalSection
 EndGlobal
