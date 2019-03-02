@@ -25,10 +25,7 @@ namespace Flagscript.Alexa.Request
 		[JsonProperty("version")]
         public string Version 
         {
-            get
-			{
-				return "1.0";
-			}
+            get => "1.0";
 			set
 			{
 				if (string.IsNullOrWhiteSpace(value) || value != "1.0")
@@ -51,6 +48,14 @@ namespace Flagscript.Alexa.Request
 		/// <value>Current state of service and device.</value>
 		[JsonProperty("context")]
 		public AlexaContext Context { get; set; }
+
+		/// <summary>
+		/// The Alexa Request Data.
+		/// </summary>
+		/// <value>The alexa request data.</value>
+		[JsonProperty("request")]
+		[JsonConverter(typeof(AlexaRequestDataConverter))]
+		public AlexaRequestDataBase RequestData { get; set; }
 
 		#endregion
 
