@@ -1,3 +1,19 @@
+## v0.2.0  
+
+Coming Soon.
+
+Features:  
+* Bump version to 0.2.0  
+
+Authors: 
+* [Greg Kaestle](mailto:flagscript@gmail.com)  
+
+# Resolved Issues:    
+* #10  
+
+# Pull Requests:  
+* #11  
+
 ## v0.1.0
 
 Release 0.1.0 focuses on getting the core base Alexa handler lambda function with some

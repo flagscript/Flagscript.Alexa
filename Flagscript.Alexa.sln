@@ -68,6 +68,6 @@ Global
 		$0.StandardHeader = $5
 		$0.VersionControlPolicy = $6
 		description = .NET Standard library for building Alexa skills.
-		version = 0.1.0
+		version = 0.2.0
 	EndGlobalSection
 EndGlobal
