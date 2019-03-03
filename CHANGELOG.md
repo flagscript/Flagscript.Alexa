@@ -8,11 +8,11 @@ Features:
 Authors: 
 * [Greg Kaestle](mailto:flagscript@gmail.com)  
 
-# Resolved Issues:  
+# Resolved Issues:    
 * #10  
 
 # Pull Requests:  
-
+* #11  
 
 ## v0.1.0
 
