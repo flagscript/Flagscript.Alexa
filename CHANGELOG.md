@@ -8,12 +8,13 @@ Features:
 * Base Lambda Core Handler
 * Most of the request object struction in place for standard requests.
 * Basic response functionality available for testing.
+* Setup base project structure.
 
 Authors:
 * [Greg Kaestle](mailto:flagscript@gmail.com)
 
 Resolved Issues:  
-* #1, #3  
+* #1, #3, #4, #7
 
 Pull Requests:  
 * #2, #6  
