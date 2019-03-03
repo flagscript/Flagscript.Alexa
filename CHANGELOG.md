@@ -17,4 +17,4 @@ Resolved Issues:
 * #1, #3, #4, #7
 
 Pull Requests:  
-* #2, #6  
+* #2, #6, #9  
