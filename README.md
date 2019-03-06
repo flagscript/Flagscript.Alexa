@@ -8,7 +8,7 @@ A .NET Standard library for building Alexa skills using AWS Lambda.
 
 ## Documentation
 
-[Documentation](./documentation/DOCUMENTATION.md) on how to use the Flagscript.Alexa libray is available in this repository. 
+[Documentation](./documentation/DOCUMENTATION.md) on how to use the Flagscript.Alexa library is available within this repository. 
 
 ## Download
 
