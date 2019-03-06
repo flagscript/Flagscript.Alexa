@@ -2,6 +2,10 @@
 
 A .NET Standard library for building Alexa skills.
 
+![GitHub last commit](https://img.shields.io/github/last-commit/flagscript/Flagscript.Alexa.svg?logo=github)
+[![flagscript MyGet Build Status](https://www.myget.org/BuildSource/Badge/flagscript?identifier=eea2cd4f-2a4e-4962-9133-85da8fd10efd)](https://www.myget.org/)
+![Nuget](https://img.shields.io/nuget/v/Flagscript.Alexa.svg?logo=nuget)
+
 ## Usage
 
 Flagscript is available as a NuGet package:
