@@ -1,18 +1,20 @@
 ## v0.2.0  
 
-Coming Soon.
+Release 0.2.0 adds startup features to the core lambda handler and additional framework handlers.
 
 Features:  
 * Bump version to 0.2.0  
+* Add dependancy injection for Lambda Functions out of the asp.net core stack. 
+* Adds cloud watch logging.
 
 Authors: 
 * [Greg Kaestle](mailto:flagscript@gmail.com)  
 
 # Resolved Issues:    
-* #10  
+* #10, #5, #12  
 
 # Pull Requests:  
-* #11  
+* #11, #13  
 
 ## v0.1.0
 

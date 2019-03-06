@@ -1,4 +1,5 @@
-﻿using Flagscript.Alexa.Request;
+﻿using Flagscript.Alexa.Promote;
+using Flagscript.Alexa.Request;
 using Flagscript.Alexa.Response;
 
 namespace Flagscript.Alexa.Lambda.Test
@@ -6,6 +7,11 @@ namespace Flagscript.Alexa.Lambda.Test
 
 	public class TestSkillRequestHandler : AlexaSkillRequestHandlerLambda
 	{
+
+		public TestSkillRequestHandler() : base(new EnvironmentService(Constants.Environments.UnitTest))
+		{
+
+		}
 
 		public override AlexaResponse HandleLaunchRequest(AlexaLaunchRequest launchRequest, AlexaContext context, AlexaSession session)
 		{
