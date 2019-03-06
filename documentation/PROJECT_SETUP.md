@@ -23,6 +23,8 @@ cd [your directory here]
 dotnet new serverless.EmptyServerless --name Flagscript.TestAlexaServerless
 ```
 
+For more information on creating preojects with the CLI, please visit the [AWS .NET Core CLI Page](https://docs.aws.amazon.com/lambda/latest/dg/lambda-dotnet-coreclr-deployment-package.html).
+
 ## Add Flagscript.Alexa
 
 Now we will add the Flagscript.Alexa nuget to the newly created project. 
@@ -30,5 +32,6 @@ Now we will add the Flagscript.Alexa nuget to the newly created project.
 ```bash
 dotnet add ./Flagscript.TestAlexaServerless/src/Flagscript.TestAlexaServerless/Flagscript.TestAlexaServerless.csproj package Flagscript.Alexa
 ```
+---
 
 That's it! We are now ready to open the project and [configure it](./CONFIGURATION.md)!
