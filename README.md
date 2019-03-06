@@ -1,10 +1,14 @@
 # Flagscript.Alexa
 
-A .NET Standard library for building Alexa skills.
-
 [![GitHub last commit](https://img.shields.io/github/last-commit/flagscript/Flagscript.Alexa.svg?logo=github)](https://github.com/flagscript/Flagscript.Alexa)
 [![flagscript MyGet Build Status](https://www.myget.org/BuildSource/Badge/flagscript?identifier=eea2cd4f-2a4e-4962-9133-85da8fd10efd)](https://www.myget.org/feed/flagscript/package/nuget/Flagscript.Alexa)
 [![Nuget](https://img.shields.io/nuget/v/Flagscript.Alexa.svg?logo=nuget)](https://www.nuget.org/packages/Flagscript.Alexa/)
+
+A .NET Standard library for building Alexa skills using AWS Lambda.
+
+## Documentation
+
+[Documentation](./documentation/DOCUMENTATION.md) on how to use the Flagscript.Alexa libray is available in this repository. 
 
 ## Usage
 
