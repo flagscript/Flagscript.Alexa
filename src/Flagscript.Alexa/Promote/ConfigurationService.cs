@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 
 using Microsoft.Extensions.Configuration;
 
@@ -42,7 +44,6 @@ namespace Flagscript.Alexa.Promote
 		/// <value>The system configuration.</value>
 		public IConfiguration GetConfiguration()
 		{
-
 			return new ConfigurationBuilder()
 				.SetBasePath(Directory.GetCurrentDirectory())
 				.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+using Microsoft.Extensions.Logging;
 using Xunit;
 
 using Flagscript.Alexa.Request;
@@ -56,12 +57,21 @@ namespace Flagscript.Alexa.Lambda.Test
 
 		}
 
+		/// <summary>
+		/// Ensures logger is picking up debug.
+		/// </summary>
+		[Fact]
+		public void TestLoggerLevel()
+		{
+			Assert.True(RequestHander.Logger.IsEnabled(LogLevel.Debug));
+		}
+
 		#endregion
 
 		#region Data Methods
 
 		/// <summary>
-		/// Test data for <see cref="TestAlexaLaunchRequest(string)"/>.
+		/// Test data for <see cref="TestHandleAlexaSkillRequest(AlexaRequestDataBase, string)"/>.
 		/// </summary>
 		/// <value>The alexa request test data.</value>
 		public static IEnumerable<object[]> AlexaRequestData => new List<object[]>()

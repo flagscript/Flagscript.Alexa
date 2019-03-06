@@ -41,7 +41,7 @@ namespace Flagscript.Alexa.Promote
 		/// Whether or not the current environment is unit test.
 		/// </summary>
 		/// <value><c>true</c> if the enviornment is unit test, otherwise false.</value>
-		public bool IsUnitTest => EnvironmentName == Environments.Production;
+		public bool IsUnitTest => EnvironmentName == Environments.UnitTest;
 
 		#endregion
 
