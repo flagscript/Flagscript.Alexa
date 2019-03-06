@@ -5,9 +5,9 @@ question on the [issues board](../../../issues).
 
 ## Documention Directory
 
-1. Project Setup  
+1. [Project Setup](./PROJECT_SETUP.md)  
    Contains information on how to create a project which will use the Flagscript.Alexa library to deploy an Alexa lambda to aws. 
-2. Configuration  
+2. [Configuration](./CONFIGURATION.md)  
    Contains information on the environment variables and configuration file settings available to configure the lambda function. 
-3. Using The Library  
+3. [Using The Library](./USING_THE_LIBRARY.md)
    Contains base information on how to inherit from the Alexa Lambda function and extend it in your own Lambda function.
