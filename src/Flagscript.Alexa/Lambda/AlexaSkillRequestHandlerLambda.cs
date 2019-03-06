@@ -8,6 +8,7 @@ using Flagscript.Alexa.Request;
 using Flagscript.Alexa.Response;
 using Flagscript.Alexa.Promote;
 using Microsoft.Extensions.Configuration;
+using Flagscript.Alexa.Configuration;
 
 namespace Flagscript.Alexa.Lambda
 {
@@ -27,12 +28,12 @@ namespace Flagscript.Alexa.Lambda
 		public IConfigurationService ConfigurationService { get; }
 
 		/// <summary>
-		/// The configured cloud watch logger. 
+		/// The configured logger
 		/// </summary>
 		/// <remarks>
 		/// Note - the ILambdaLogger is still available in every call should you prefer.
 		/// </remarks>
-		public ILogger CloudWatchLogger { get; }
+		public ILogger Logger { get; }
 
 		/// <summary>
 		/// Local Service Provider.
@@ -47,7 +48,7 @@ namespace Flagscript.Alexa.Lambda
 		/// <summary>
 		/// Default Constructor.
 		/// </summary>
-		public AlexaSkillRequestHandlerLambda(IEnvironmentService environmentService = null)
+		protected AlexaSkillRequestHandlerLambda(IEnvironmentService environmentService = null)
 		{
 			// Set up Dependency Injection
 			var serviceCollection = new ServiceCollection();
@@ -59,6 +60,11 @@ namespace Flagscript.Alexa.Lambda
 
 			// Configure Logging
 			ConfigureLogging(ServiceProvider);
+
+			// Setup Logger
+			AlexaLambdaConfiguration alexaLambdaConfiguration = ServiceProvider.GetService<AlexaLambdaConfiguration>();
+			ILoggerFactory loggerFactory = ServiceProvider.GetService<ILoggerFactory>();
+			Logger = loggerFactory.CreateLogger(alexaLambdaConfiguration.AlexaLoggerCategory);
 
 		}
 
@@ -75,7 +81,7 @@ namespace Flagscript.Alexa.Lambda
 		public AlexaResponse HandleAlexaSkillRequest(AlexaRequest alexaRequest, ILambdaContext lambdaContext)
 		{
 
-			ILambdaLogger logger = lambdaContext?.Logger;
+			Logger.LogDebug("Entering HandleAlexaSkillRequest");
 
 			AlexaResponse response;
 
@@ -99,9 +105,8 @@ namespace Flagscript.Alexa.Lambda
 					AlexaCanFulfillIntentRequest canFulfillIntentRequest = alexaRequest.RequestData as AlexaCanFulfillIntentRequest;
 					response = HandleCanFulfillIntentRequest(canFulfillIntentRequest, alexaRequest.Context, alexaRequest.Session);
 					break;
-
 				default:
-					logger?.LogLine($"Recieved not implemented request type: {alexaRequest.RequestData.RequestType}");
+					Logger?.LogError($"Recieved not implemented request type: {alexaRequest.RequestData.RequestType}");
 					throw new NotImplementedException($"{alexaRequest.RequestData.RequestType} is not yet implemented.");
 
 			}
@@ -121,10 +126,11 @@ namespace Flagscript.Alexa.Lambda
 		/// <param name="context">Context of the Alexa execution.</param>
 		/// <param name="session">Current Alexa session.</param>
 		/// <returns>The Alexa response.</returns>
-		public virtual AlexaResponse HandleLaunchRequest(AlexaLaunchRequest launchRequest, AlexaContext context, AlexaSession session)
-		{
-			throw new NotImplementedException("HandleLaunchRequest not yet implemented.");
-		}
+		public virtual AlexaResponse HandleLaunchRequest(
+			AlexaLaunchRequest launchRequest, 
+			AlexaContext context, 
+			AlexaSession session) 
+			=> throw new NotImplementedException("HandleLaunchRequest not yet implemented.");
 
 		/// <summary>
 		/// Function to handle Alexa session ended requests.
@@ -132,10 +138,11 @@ namespace Flagscript.Alexa.Lambda
 		/// <param name="sessionEndedRequest">The alexa session ended request.</param>
 		/// <param name="context">Context of the Alexa execution.</param>
 		/// <param name="session">Current Alexa session.</param>
-		public virtual void HandleSessionEndedRequest(AlexaSessionEndedRequest sessionEndedRequest, AlexaContext context, AlexaSession session)
-		{
-			throw new NotImplementedException("HandleSessionEndedRequest not yet implemented.");
-		}
+		public virtual void HandleSessionEndedRequest(
+			AlexaSessionEndedRequest sessionEndedRequest, 
+			AlexaContext context, 
+			AlexaSession session) 
+			=> throw new NotImplementedException("HandleSessionEndedRequest not yet implemented.");
 
 		/// <summary>
 		/// Function to handle Alexa intent requests.
@@ -144,10 +151,11 @@ namespace Flagscript.Alexa.Lambda
 		/// <param name="context">Context of the Alexa execution.</param>
 		/// <param name="session">Current Alexa session.</param>
 		/// <returns>The Alexa response.</returns>
-		public virtual AlexaResponse HandleIntentRequest(AlexaIntentRequest intentRequest, AlexaContext context, AlexaSession session)
-		{
-			throw new NotImplementedException("HandleIntentRequest not yet implemented.");
-		}
+		public virtual AlexaResponse HandleIntentRequest(
+			AlexaIntentRequest intentRequest, 
+			AlexaContext context, 
+			AlexaSession session) 
+			=> throw new NotImplementedException("HandleIntentRequest not yet implemented.");
 
 		/// <summary>
 		/// Function to handle Alexa can fullfill intent requests.
@@ -156,10 +164,11 @@ namespace Flagscript.Alexa.Lambda
 		/// <param name="context">Context of the Alexa execution.</param>
 		/// <param name="session">Current Alexa session.</param>
 		/// <returns>The Alexa response.</returns>
-		public virtual AlexaResponse HandleCanFulfillIntentRequest(AlexaCanFulfillIntentRequest canFulfillIntentRequest, AlexaContext context, AlexaSession session)
-		{
-			throw new NotImplementedException("HandleCanFulfillIntentRequest not yet implemented.");
-		}
+		public virtual AlexaResponse HandleCanFulfillIntentRequest(
+			AlexaCanFulfillIntentRequest canFulfillIntentRequest, 
+			AlexaContext context, 
+			AlexaSession session)
+			=> throw new NotImplementedException("HandleCanFulfillIntentRequest not yet implemented.");
 
 		#endregion
 
@@ -172,18 +181,35 @@ namespace Flagscript.Alexa.Lambda
 		/// <param name="environmentService">The environment of the skill.</param>
 		protected void ConfigureServices(IServiceCollection serviceCollection, IEnvironmentService environmentService = null)
 		{
+			IEnvironmentService configuredEnvironmentService;
 			if (environmentService == null)
 			{
 				// Standard dotnet environment service.
-				serviceCollection.AddSingleton<IEnvironmentService, EnvironmentService>();
+				EnvironmentService defaultEnvironmentService = new EnvironmentService();
+				serviceCollection.AddSingleton<IEnvironmentService>(defaultEnvironmentService);
+				configuredEnvironmentService = defaultEnvironmentService;
 			}
 			else
 			{
 				// Unit Testing Environment Service
 				serviceCollection.AddSingleton(environmentService);
+				configuredEnvironmentService = environmentService;
 			}
-			serviceCollection.AddSingleton<IConfigurationService, ConfigurationService>();
+
+			// Add the configurations 
+			ConfigurationService configurationService = new ConfigurationService(configuredEnvironmentService);
+			serviceCollection.AddSingleton<IConfigurationService>(configurationService);
+
+			// Add Flagscript Alexa Configuration
+			IConfiguration configuration = configurationService.GetConfiguration();
+			AlexaLambdaConfiguration alexaLambdaConfiguration = configuration
+				.GetSection(AlexaLambdaConfiguration.Configurationname)
+				.Get<AlexaLambdaConfiguration>();
+			serviceCollection.AddSingleton(alexaLambdaConfiguration);
+
+			// Add logging
 			serviceCollection.AddLogging();
+
 		}
 
 		/// <summary>
@@ -196,14 +222,20 @@ namespace Flagscript.Alexa.Lambda
 			IEnvironmentService environmentService = serviceProvider.GetService<IEnvironmentService>();
 			ILoggerFactory loggerFactory = serviceProvider.GetService<ILoggerFactory>();
 			IConfiguration configuration = ConfigurationService.GetConfiguration();
+
 			// Add Console and Debug logging in development/unittest.
 			if (environmentService.IsUnitTest || environmentService.IsDevelopment)
 			{
 				loggerFactory.AddConsole();
 				loggerFactory.AddDebug();
 			}
-			// Add AWS logging.
-			loggerFactory.AddAWSProvider(configuration.GetAWSLoggingConfigSection());
+
+			// Add AWS logging, optional.
+			AlexaLambdaConfiguration alexaLambdaConfiguration = serviceProvider.GetService<AlexaLambdaConfiguration>();
+			if (alexaLambdaConfiguration.EnableAlexaLogger)
+			{
+				loggerFactory.AddAWSProvider(configuration.GetAWSLoggingConfigSection());
+			}
 
 		}
 
