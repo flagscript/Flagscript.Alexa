@@ -6,15 +6,16 @@ Features:
 * Bump version to 0.2.0  
 * Add dependancy injection for Lambda Functions out of the asp.net core stack. 
 * Adds cloud watch logging.
+* Add documentation markdowns to project.
 
 Authors: 
 * [Greg Kaestle](mailto:flagscript@gmail.com)  
 
 # Resolved Issues:    
-* #10, #5, #12  
+* #10, #5, #12, #8, #14, #18 
 
 # Pull Requests:  
-* #11, #13  
+* #11, #13, #19
 
 ## v0.1.0
 
