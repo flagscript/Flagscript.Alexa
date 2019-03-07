@@ -10,9 +10,9 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Owners>Flagscript</Owners>
     <PackageProjectUrl>https://github.com/flagscript/Flagscript.Alexa</PackageProjectUrl>
-    <PackageReleaseNotes>Initial Release of Flagscript Alexa.</PackageReleaseNotes>
+    <PackageReleaseNotes>Add Lambda handler and ASP.NET Core Mock to Flagscript.Alexa.</PackageReleaseNotes>
     <Summary>.NET Standard library for building Alexa skills.</Summary>
-    <PackageTags>alexa, aws, flagscript</PackageTags>
+    <PackageTags>alexa, aws, flagscript, aws-lambda, dotnet, dotnet-core, dotnet-standard, dotnet-library</PackageTags>
     <Title>Flagscript.Alexa</Title>
     <Description>.NET Standard library for building Alexa skills.</Description>
     <PackageId>Flagscript.Alexa</PackageId>
