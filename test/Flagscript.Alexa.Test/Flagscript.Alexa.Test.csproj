@@ -10,7 +10,7 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Owners>Flagscript</Owners>
     <Summary>Test Project for Flagscript.Alexa.</Summary>
-    <PackageTags>alexa, aws, flagscript</PackageTags>
+    <PackageTags>alexa, aws, flagscript, aws-lambda, dotnet, dotnet-core, dotnet-standard, dotnet-library</PackageTags>
     <Title>Flagscript.Alexa.Test</Title>
     <Description>Test Project for Flagscript.Alexa.</Description>
     <PackageLicenseUrl>https://github.com/flagscript/Flagscript.Alexa/blob/master/LICENSE.md</PackageLicenseUrl>
