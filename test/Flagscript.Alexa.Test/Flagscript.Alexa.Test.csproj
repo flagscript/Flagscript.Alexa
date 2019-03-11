@@ -4,8 +4,8 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
-    <ReleaseVersion>0.2.0</ReleaseVersion>
-    <PackageVersion>0.2.0</PackageVersion>
+    <ReleaseVersion>0.3.0</ReleaseVersion>
+    <PackageVersion>0.3.0</PackageVersion>
     <Authors>Greg Kaestle, Flagscript</Authors>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Owners>Flagscript</Owners>
@@ -15,12 +15,17 @@
     <Description>Test Project for Flagscript.Alexa.</Description>
     <PackageLicenseUrl>https://github.com/flagscript/Flagscript.Alexa/blob/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/flagscript/Flagscript.Alexa</PackageProjectUrl>
+    <PackageId>Flagscript.Test</PackageId>
+    <PackageIconUrl>https://raw.githubusercontent.com/flagscript/Flagscript/master/flagscript-nuget.png</PackageIconUrl>
+    <NeutralLanguage>en-US</NeutralLanguage>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+    <PackageReference Include="NuGet.Build.Packaging" Version="0.2.0" />
+    <PackageReference Include="Flagscript.Aws" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>

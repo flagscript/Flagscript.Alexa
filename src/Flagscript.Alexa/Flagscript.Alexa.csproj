@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <ReleaseVersion>0.2.0</ReleaseVersion>
+    <ReleaseVersion>0.3.0</ReleaseVersion>
     <PackOnBuild>true</PackOnBuild>
-    <PackageVersion>0.2.0</PackageVersion>
+    <PackageVersion>0.3.0</PackageVersion>
     <Authors>Greg Kaestle, Flagscript</Authors>
     <PackageLicenseUrl>https://github.com/flagscript/Flagscript.Alexa/blob/master/LICENSE.md</PackageLicenseUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -16,14 +16,12 @@
     <Title>Flagscript.Alexa</Title>
     <Description>.NET Standard library for building Alexa skills.</Description>
     <PackageId>Flagscript.Alexa</PackageId>
+    <PackageIconUrl>https://raw.githubusercontent.com/flagscript/Flagscript/master/flagscript-nuget.png</PackageIconUrl>
+    <NeutralLanguage>en-US</NeutralLanguage>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AWS.Logger.AspNetCore" Version="1.4.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.1.0" />
@@ -33,9 +31,15 @@
     <PackageReference Include="Amazon.Lambda.Core" Version="1.1.0" />
     <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.5.0" />
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.3.6" />
+    <PackageReference Include="Flagscript.Aws" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Configuration\" />
+    <Folder Include="Handler\" />
+    <Folder Include="Handler\Session\" />
+    <Folder Include="Handler\Launch\" />
+    <Folder Include="Handler\Intent\" />
+    <Folder Include="Handler\CanFulfillIntent\" />
   </ItemGroup>
 </Project>

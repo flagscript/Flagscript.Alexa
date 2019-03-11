@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Text;
 
 using Amazon.Lambda.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
+using Flagscript.Alexa.Handler;
 using Flagscript.Alexa.Request;
 using Flagscript.Alexa.Response;
-using Flagscript.Alexa.Promote;
 using Flagscript.Alexa.Configuration;
+using Flagscript.Aws.Startup;
 
 namespace Flagscript.Alexa.Lambda
 {
@@ -20,6 +22,12 @@ namespace Flagscript.Alexa.Lambda
 	{
 
 		#region Properties
+
+		/// <summary>
+		/// Flagscript Alexa Configuration
+		/// </summary>
+		/// <value>The flagscript alexa configuration.</value>
+		public FlagscriptAlexaConfiguration FlagscriptAlexaConfiguration { get; }
 
 		/// <summary>
 		/// Populated configuration service.
@@ -41,6 +49,12 @@ namespace Flagscript.Alexa.Lambda
 		/// <value>Local Service Provider.</value>
 		public IServiceProvider ServiceProvider { get; }
 
+		/// <summary>
+		/// The Alexa Request Handler for this skill.
+		/// </summary>
+		/// <value>The alexa request handler for this skill.</value>
+		public IAlexaRequestHandler AlexaRequestHandler { get; }
+
 		#endregion
 
 		#region Constructors
@@ -53,19 +67,24 @@ namespace Flagscript.Alexa.Lambda
 
 			// Set up Dependency Injection
 			var serviceCollection = new ServiceCollection();
-			ConfigureServices(serviceCollection, environmentService);
+			ConfigureDefaultServices(serviceCollection, environmentService);
 			ServiceProvider = serviceCollection.BuildServiceProvider();
 
-			// Get service from DI system
+			// Get configuration service from DI system
 			ConfigurationService = ServiceProvider.GetService<IConfigurationService>();
+
+			// Get Alexa request handler from DI system
+			AlexaRequestHandler = ServiceProvider.GetService<IAlexaRequestHandler>();
 
 			// Configure Logging
 			ConfigureLogging(ServiceProvider);
 
 			// Setup Logger
-			AlexaLambdaConfiguration alexaLambdaConfiguration = ServiceProvider.GetService<AlexaLambdaConfiguration>();
+			FlagscriptAlexaConfiguration fsAlexaConfiguration = ServiceProvider.GetService<FlagscriptAlexaConfiguration>();
 			ILoggerFactory loggerFactory = ServiceProvider.GetService<ILoggerFactory>();
-			Logger = loggerFactory.CreateLogger(alexaLambdaConfiguration.AlexaLoggerCategory);
+			Logger = loggerFactory.CreateLogger(fsAlexaConfiguration.AlexaLoggerCategory);
+
+			// Setup Request Handler
 
 		}
 
@@ -82,10 +101,21 @@ namespace Flagscript.Alexa.Lambda
 		public AlexaResponse HandleAlexaSkillRequest(AlexaRequest alexaRequest, ILambdaContext lambdaContext)
 		{
 
+			// Perform Validations
+
+			// Validate we have a request. 
+			if (alexaRequest == null)
+			{
+				// 400 bad response
+			}
+
+			// Validate the timestamp properties.
+
 			AlexaResponse response;
 
 			switch (alexaRequest.RequestData.RequestType)
 			{
+
 				// Handle Launch request.
 				case AlexaRequestType.LaunchRequest:
 					AlexaLaunchRequest launchRequest = alexaRequest.RequestData as AlexaLaunchRequest;
@@ -93,32 +123,44 @@ namespace Flagscript.Alexa.Lambda
 					{
 						Logger.LogDebug($"Recieved Alexa Launch Request: ID = {launchRequest.RequestId}");
 					}
-					response = HandleLaunchRequest(launchRequest, alexaRequest.Context, alexaRequest.Session);
+					// response = HandleLaunchRequest(launchRequest, alexaRequest.Context, alexaRequest.Session);
+					ILaunchRequestHandler launchRequestHandler = AlexaRequestHandler.GetLaunchRequestHandler();
+					response = null;
 					break;
-				// Can not send response to session ended request.
+
+				// Handle Session ended request. Note, session ended does not return a response. 
 				case AlexaRequestType.SessionEndedRequest:					
 					AlexaSessionEndedRequest sessionEndedRequest = alexaRequest.RequestData as AlexaSessionEndedRequest;
 					if (Logger.IsEnabled(LogLevel.Debug))
 					{
 						Logger.LogDebug($"Received Alexa Session Ended Request: ID = {sessionEndedRequest.RequestId}, Reason={sessionEndedRequest.Reason.ToString()}");
 					}
-					HandleSessionEndedRequest(sessionEndedRequest, alexaRequest.Context, alexaRequest.Session);
+					ISessionEndedRequestHandler sessionEndedRequestHandler = AlexaRequestHandler.GetSessionEndedRequestHandler();
+					sessionEndedRequestHandler.HandleRequest(sessionEndedRequest, alexaRequest.Context, alexaRequest.Session);
 					return null;
+
+				// Handle Intent Request
 				case AlexaRequestType.IntentRequest:
 					AlexaIntentRequest intentRequest = alexaRequest.RequestData as AlexaIntentRequest;
 					if (Logger.IsEnabled(LogLevel.Debug))
 					{
-						string debug = $"Received Alexa Intent Request: ID = {intentRequest.RequestId}, ";
-						debug += $"IntentName = {intentRequest.Intent?.Name}, ";
+						StringBuilder debugBuilder = new StringBuilder();
+						debugBuilder.Append($"Received Alexa Intent Request: ID = {intentRequest.RequestId}, ");
+						debugBuilder.Append($"IntentName = {intentRequest.Intent?.Name}, ");
+
 						if (intentRequest.Intent?.Slots != null)
 						{
-							debug += $"Slots = {string.Join(",", intentRequest.Intent?.Slots?.Keys)}, ";
-							debug += $"Slot Values = {string.Join(",", intentRequest.Intent?.Slots?.Values)}";
+							debugBuilder.Append($"Slots = {string.Join(",", intentRequest.Intent?.Slots?.Keys)}, ");
+							debugBuilder.Append($"Slot Values = {string.Join(",", intentRequest.Intent?.Slots?.Values)}");
 						}
-						Logger.LogDebug(debug);
+						Logger.LogDebug(debugBuilder.ToString());
 					}
-					response = HandleIntentRequest(intentRequest, alexaRequest.Context, alexaRequest.Session);
+					// response = HandleIntentRequest(intentRequest, alexaRequest.Context, alexaRequest.Session);
+					IIntentRequestHandler intentRequestHandler = AlexaRequestHandler.GetIntentRequestHandler();
+					response = null;
 					break;
+
+				// Handle Can Fulfill Intent Request
 				case AlexaRequestType.CanFulfillIntentRequest:
 					AlexaCanFulfillIntentRequest canFulfillIntentRequest = alexaRequest.RequestData as AlexaCanFulfillIntentRequest;
 					if (Logger.IsEnabled(LogLevel.Debug))
@@ -126,8 +168,12 @@ namespace Flagscript.Alexa.Lambda
 						string debug = $"Received Can Fulfill Intent Request: ID = {canFulfillIntentRequest.RequestId}, ";
 						Logger.LogDebug(debug);
 					}
-					response = HandleCanFulfillIntentRequest(canFulfillIntentRequest, alexaRequest.Context, alexaRequest.Session);
+					// response = HandleCanFulfillIntentRequest(canFulfillIntentRequest, alexaRequest.Context, alexaRequest.Session);
+					ICanFulfillIntentRequestHandler canFulfillIntentRequestHandler = 
+						AlexaRequestHandler.GetCanFulfillIntentRequestHandler();
+					response = null;
 					break;
+
 				default:
 					Logger.LogError($"Received not implemented Alexa request type: {alexaRequest.RequestData.RequestType}");
 					throw new NotImplementedException($"{alexaRequest.RequestData.RequestType} is not yet implemented.");
@@ -140,61 +186,6 @@ namespace Flagscript.Alexa.Lambda
 
 		#endregion
 
-		#region Request Type Handlers
-
-		/// <summary>
-		/// Function to handle Alexa launch requests.
-		/// </summary>
-		/// <param name="launchRequest">The alexa launch request information.</param>
-		/// <param name="context">Context of the Alexa execution.</param>
-		/// <param name="session">Current Alexa session.</param>
-		/// <returns>The Alexa response.</returns>
-		public virtual AlexaResponse HandleLaunchRequest(
-			AlexaLaunchRequest launchRequest, 
-			AlexaContext context, 
-			AlexaSession session) 
-			=> throw new NotImplementedException("HandleLaunchRequest not yet implemented.");
-
-		/// <summary>
-		/// Function to handle Alexa session ended requests.
-		/// </summary>
-		/// <param name="sessionEndedRequest">The alexa session ended request.</param>
-		/// <param name="context">Context of the Alexa execution.</param>
-		/// <param name="session">Current Alexa session.</param>
-		public virtual void HandleSessionEndedRequest(
-			AlexaSessionEndedRequest sessionEndedRequest, 
-			AlexaContext context, 
-			AlexaSession session) 
-			=> throw new NotImplementedException("HandleSessionEndedRequest not yet implemented.");
-
-		/// <summary>
-		/// Function to handle Alexa intent requests.
-		/// </summary>
-		/// <param name="intentRequest">The alexa intent request.</param>
-		/// <param name="context">Context of the Alexa execution.</param>
-		/// <param name="session">Current Alexa session.</param>
-		/// <returns>The Alexa response.</returns>
-		public virtual AlexaResponse HandleIntentRequest(
-			AlexaIntentRequest intentRequest, 
-			AlexaContext context, 
-			AlexaSession session) 
-			=> throw new NotImplementedException("HandleIntentRequest not yet implemented.");
-
-		/// <summary>
-		/// Function to handle Alexa can fullfill intent requests.
-		/// </summary>
-		/// <param name="canFulfillIntentRequest">The alexa can fulfill intent request.</param>
-		/// <param name="context">Context of the Alexa execution.</param>
-		/// <param name="session">Current Alexa session.</param>
-		/// <returns>The Alexa response.</returns>
-		public virtual AlexaResponse HandleCanFulfillIntentRequest(
-			AlexaCanFulfillIntentRequest canFulfillIntentRequest, 
-			AlexaContext context, 
-			AlexaSession session)
-			=> throw new NotImplementedException("HandleCanFulfillIntentRequest not yet implemented.");
-
-		#endregion
-
 		#region Dependancy Injection Configuration
 
 		/// <summary>
@@ -202,7 +193,7 @@ namespace Flagscript.Alexa.Lambda
 		/// </summary>
 		/// <param name="serviceCollection">The DI service collection.</param>
 		/// <param name="environmentService">The environment of the skill.</param>
-		protected void ConfigureServices(IServiceCollection serviceCollection, IEnvironmentService environmentService = null)
+		private void ConfigureDefaultServices(IServiceCollection serviceCollection, IEnvironmentService environmentService = null)
 		{
 			IEnvironmentService configuredEnvironmentService;
 			if (environmentService == null)
@@ -226,10 +217,10 @@ namespace Flagscript.Alexa.Lambda
 
 			// Add Flagscript Alexa Configuration
 			IConfiguration configuration = configurationService.GetConfiguration();
-			AlexaLambdaConfiguration alexaLambdaConfiguration = configuration
-				.GetSection(AlexaLambdaConfiguration.Configurationname)
-				.Get<AlexaLambdaConfiguration>();
-			serviceCollection.AddSingleton(alexaLambdaConfiguration);
+			FlagscriptAlexaConfiguration fsAlexaConfiguration = configuration
+				.GetSection(FlagscriptAlexaConfiguration.Configurationname)
+				.Get<FlagscriptAlexaConfiguration>();
+			serviceCollection.AddSingleton(fsAlexaConfiguration);
 
 			// Add aws options for unit test and development
 			if (configuredEnvironmentService.IsUnitTest || configuredEnvironmentService.IsDevelopment)
@@ -241,6 +232,9 @@ namespace Flagscript.Alexa.Lambda
 			serviceCollection.AddLogging(builder =>
 				builder.AddConfiguration(configurationService.GetConfiguration().GetSection("Logging"))
 			);
+
+			// Add the request handler
+			serviceCollection.AddSingleton<IAlexaRequestHandler>(GetSkillRequestHandler());
 
 		}
 
@@ -263,13 +257,19 @@ namespace Flagscript.Alexa.Lambda
 			}
 
 			// Add AWS logging, optional.
-			AlexaLambdaConfiguration alexaLambdaConfiguration = serviceProvider.GetService<AlexaLambdaConfiguration>();
-			if (alexaLambdaConfiguration.EnableAlexaLogger)
+			FlagscriptAlexaConfiguration fsAlexaConfiguration = serviceProvider.GetService<FlagscriptAlexaConfiguration>();
+			if (fsAlexaConfiguration.EnableAlexaLogger)
 			{
 				loggerFactory.AddAWSProvider(configuration.GetAWSLoggingConfigSection());
 			}
 
 		}
+
+		#endregion
+
+		#region Abstract Methods
+
+		public abstract IAlexaRequestHandler GetSkillRequestHandler();
 
 		#endregion
 

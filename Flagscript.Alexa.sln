@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Flagscript.Alexa", "Flagscript.Alexa", "{A4BC3C98-7E8D-4FC2-BB7E-B7E4C3713E37}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A4BC3C98-7E8D-4FC2-BB7E-B7E4C3713E37}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flagscript.Alexa", "src\Flagscript.Alexa\Flagscript.Alexa.csproj", "{BBBBDBC3-0A4A-490C-ACB6-03D596BCCED4}"
 EndProject
@@ -68,6 +68,6 @@ Global
 		$0.StandardHeader = $5
 		$0.VersionControlPolicy = $6
 		description = .NET Standard library for building Alexa skills.
-		version = 0.2.0
+		version = 0.3.0
 	EndGlobalSection
 EndGlobal

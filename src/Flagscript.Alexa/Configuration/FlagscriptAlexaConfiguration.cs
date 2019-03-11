@@ -2,9 +2,9 @@
 {
 
 	/// <summary>
-	/// appsettings.json configuration values for the Alexa Lambda handler. 
+	/// appsettings.json configuration values for the Flagscript Alexa handler. 
 	/// </summary>
-	public class AlexaLambdaConfiguration
+	public class FlagscriptAlexaConfiguration
 	{
 
 		#region Const/Static
@@ -29,6 +29,12 @@
 		/// </summary>
 		/// <value><c>true</c> if enable alexa logger; otherwise, <c>false</c>.</value>
 		public bool EnableAlexaLogger { get; set; }
+
+		/// <summary>
+		/// The tolerance in seconds when an out of bounds timestamp should yield a bad request.
+		/// </summary>
+		/// <value>The timestamp tolerance in seconds..</value>
+		public int TimestampTolerance { get; set; } = 250;
 
 		#endregion
 
